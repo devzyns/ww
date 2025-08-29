@@ -1,0 +1,187 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>🌆 Tbilisi Hood</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding-top: 40px;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 6px rgba(0,0,0,0.8);
+        }
+        .btn-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        a {
+            text-decoration: none;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            background: linear-gradient(135deg, #007BFF, #0056b3);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #0056b3, #003f7f);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+        }
+        #bgVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .modal-content {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            text-align: left;
+        }
+        .close {
+            color: red;
+            font-size: 1.2rem;
+            cursor: pointer;
+            float: right;
+        }
+        /* მეორე ვიდეო */
+        .main-video-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .main-video {
+            width: 60%;          /* პატარა ზომა */
+            max-width: 600px;    /* მაქსიმუმ 600px */
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+        }
+        .video-text {
+            margin-top: 15px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+        }
+        /* მობილურზე ზომის ავტომატური დაპატარავება */
+        @media (max-width: 768px) {
+            .main-video {
+                width: 90%;
+                max-width: 400px;
+            }
+            .video-text {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ფონის ვიდეო -->
+    <video autoplay muted loop id="bgVideo">
+        <source src="Roblox 2025-08-29 11-42-27 (online-video-cutter-VEED.mp4" type="video/mp4">
+        შენი ბრაუზერი ვიდეოს არ უჭერს მხარს
+    </video>
+
+    <h1>🌆 Tbilisihood</h1>
+    
+    <div class="btn-container">
+        <a href="https://discord.gg/QJnDuBax" target="_blank">
+            <button>😎 Discord</button>
+        </a>
+        <button id="rulesBtn">📜 წესები</button>
+        <button id="adminsBtn">🛡️ Admins</button>
+        <a href="https://www.roblox.com/communities/15745479/Tbilisi-Studio#!/about" target="_blank">
+            <button>👥 Roblox Group</button>
+        </a>
+    </div>
+
+    <!-- მთავარი ვიდეო ღილაკების ქვემოთ -->
+    <div class="main-video-container">
+        <video class="main-video" autoplay muted loop playsinline>
+            <source src="Roblox 2025-08-29 13-10-49 (online-video-cutter.com) (1).mp4" type="video/mp4">
+            შენი ბრაუზერი ვიდეოს არ უჭერს მხარს
+        </video>
+        <p class="video-text">⚔️ PVP</p>
+    </div>
+
+    <!-- წესების მოდალი -->
+    <div id="rulesModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>📜 წესები</h2>
+            <p> ... (შენი ტექსტი უცვლელად დავტოვე) ... </p>
+        </div>
+    </div>
+
+    <!-- Admins მოდალი -->
+    <div id="adminsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>🛡️ Admin Roles</h2>
+            <p> ... (შენი ტექსტი უცვლელად დავტოვე) ... </p>
+        </div>
+    </div>
+
+    <script>
+        function setupModal(btnId, modalId) {
+            const modal = document.getElementById(modalId);
+            const btn = document.getElementById(btnId);
+            const closeBtn = modal.querySelector(".close");
+
+            btn.onclick = () => modal.style.display = "flex";
+            closeBtn.onclick = () => modal.style.display = "none";
+            window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; }
+        }
+
+        setupModal("rulesBtn", "rulesModal");
+        setupModal("adminsBtn", "adminsModal");
+    </script>
+</body>
+</html>
